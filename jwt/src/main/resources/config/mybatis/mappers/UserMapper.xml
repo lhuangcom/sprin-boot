@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhuang.blog.user.provider.dao.UserDao">
+  <resultMap id="UserMap" type="com.lhuang.blog.user.api.pojo.User">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+
+  </resultMap>
+
+  <sql id="base_result_set">
+    id,username,email
+  </sql>
+
+  <select id="getUser" resultMap="UserMap" parameterType="User">
+      select <include refid="base_result_set"/> from user where username=#{username} and password=#{password}
+  </select>
+
+  <select id="getUserByUsername"  parameterType="User">
+    select count(*) from user where username=#{username}
+  </select>
+
+  <insert id="insertUser" parameterType="User">
+    insert into user values(#{id},#{username},#{password},#{email})
+  </insert>
+</mapper>

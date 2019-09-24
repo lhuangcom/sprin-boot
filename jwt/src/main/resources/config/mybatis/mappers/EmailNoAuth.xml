@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhuang.blog.user.provider.dao.EmailAuthDao">
+  <resultMap id="EmailNoAuthMap" type="com.lhuang.blog.user.api.pojo.EmailNoAuth">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+  </resultMap>
+
+  <sql id="base_result_set">
+    id,user_id
+  </sql>
+
+  <select id="getRecordByUserId" resultType="Integer" parameterType="String">
+      select count(*)  from email_no_auth where user_id = #{userId}
+  </select>
+
+  <delete id="deleteRecordByUserId" parameterType="String" >
+    delete  from email_no_auth where user_id = #{userId}
+  </delete>
+
+  <insert id="insertRecord" parameterType="EmailNoAuth" useGeneratedKeys="true" keyProperty="id">
+    insert into email_no_auth(id,user_id) values(#{id},#{userId})
+  </insert>
+</mapper>
