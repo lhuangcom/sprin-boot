@@ -1,0 +1,44 @@
+导入项目：建立工作空间，存放svn项目
+               导入项目时选择从工作空间导入
+               build path配置jdk、tomcat（检查是否有错误的jar包）
+               配置项目的编码；
+
+百度编辑器UEditor：1、配置jar包 common-io2.4 会与原有的common-io包冲突；
+                               2、暂时配置的图片只能存放在本地；
+                               3、图片的存放地址如果在项目路径里服务器启动会把其删除；
+                               4、上传的图片删不掉；
+图片保存到非项目根目录配置使用：1、导入相关jar包；
+                                                   2、config.json中配置：localSavePathPrefix、imageUrlPrefix（供映射访问）；
+                                                   3、server.xml配置图片的映射路径； 
+
+  打包jar注意事项（使用eclipse打包jar包，默认设置即可）：1、ueditor提供的打包功能grunt并不能将源码打包成jar包；
+                                                                                       2、注意源码的运行环境，必须小于项目运行的环境，
+                                                                                            否则会报错Unsupported major.minor version 52.0（表示jar包的编译环境为jdk1.8），
+                                                                                            如果出错需要重新新建项目配置jdk环境重新编译，切换jdk版本无效；
+
+
+knowledge_contest项目导入注意事项：1、需要额外导入jar包  poi-3.9-20121203.jar（4.0version太新会不兼容，仍然部分报错）
+                                2、需要Maven配置<dependency>
+                                              <groupId>opensymphony</groupId>
+                                             <artifactId>quartz-all</artifactId>
+                                             <version>1.6.0</version>
+                                              </dependency>（spring使用quartz需要导入额外的quartz-all-1.6.0.jar包，spring3.x不支持quartz2.x）
+                              3、常规配置mysql、redis数据库相关连接；
+
+
+生成html接口项目：
+  改进：1、辅网生成HTML失败的情况未处理；对于辅网不同的反馈结果缺乏对应的措施；
+          2、redis失效但是相应的指令还在队列中的问题（redis失效）；
+          3、对于出错打印（输出）日志；
+          4、对于以后可能出现的高并发，可以考虑升级为httpclient连接池
+          5、传统http协议通过ajax实现轮询来保持和后端的持续交互，可以考虑使用websocket协议的允许服务端主动向客户端通信的能力来减少轮询的性能损耗；
+
+
+          
+                         
+                
+
+
+
+
+

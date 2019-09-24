@@ -1,0 +1,88 @@
+20190604  将单个chatroom项目拆分成多个im子项目；
+
+20190605 优化心跳机制，添加springboot监控
+NioServerSocketChannel 是给server用的，程序由始至终只有一个NioServerSocketChannel
+NioSocketChannel 是给客户端用的，每个连接生成一个NioSocketChannel 对象
+
+20190627 增加异常捕获和增加guava-retry解耦重试逻辑
+自定义注解
+
+
+使用spring cloud finchley:
+（1）:Application run failed java.lang.NoSuchMethodError: org.springframework.boot.builder.SpringApplicationBuilder
+版本依赖包冲突，需要使用springboot 2.0.3以上的版本
+（2）Eureka Server 依赖更新：
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+
+（3）Eureka Client 依赖更新
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+
+（4）Fegin依赖更新
+<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+ </dependency>
+（5）hystrix更新
+  <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+  </dependency>
+
+（6）com.netflix.hystrix.exception.HystrixRuntimeException: service-feign timed-out
+  引用注解@EnableEurekaClient、@EnableCircuitBreaker；并且将Fegin远程调用的方法放在springboot初始化完成后调用；（此时不能完成负载均衡）
+
+（7）zuul依赖更新
+<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+
+
+需要在mapper 接口中查询参数添加@Param，原因对应的参数没有一个key去表示；
+There is no getter for property named 'queryContentTemplateVm' in 'class  @Param
+如果普通String和基本数据类型参数不使用该注解，则sql中使用#{0}、#{1}代替
+
+（在字段名和属性名不一致的情况下）mybatis中select 取出来得值应对应实体类中的property，否则取出来的值为空（），或者配置resultMap（主），即如果字段名和属性名一致的话，resultMap中可以不配置result标签
+
+@RequestBody 修饰实体参数不会为null，也不允许null，
+
+GET请求的参数在URL中，而POST请求的参数在请求主体Message-Body中。
+@RequestParam中请求处理的conten-type为application/x-www-form-urlencoded编码格式的数据，在body中对应的格式为key=value
+
+请求数组的格式：@RequestParam("ids[]") List<String> ids     ids=["","",]  
+@RequestBody处理非application/x-www-form-urlencoded的数据一般为{“key”:"value"}（json格式类型） 
+
+
+sql语句查询返回的结果字段取决于resultMap 而不是实体类型；
+分组验证:@Validated;还支持组序列：@GroupSquence不同组别的约束验证是无序的，然而在某些情况下，约束验证的顺序却很重要，如下面两个例子：（1）第二个组中的约束验证依赖于一个稳定状态来运行，而这个稳定状态是由第一个组来进行验证的。（2）某个组的验证比较耗时，CPU 和内存的使用率相对比较大，最优的选择是将其放在最后进行验证。
+
+嵌套验证：@Valid
+如果在接口中进行校验，参数中使用@Valid，且接口上增加注解@Validated
+分组嵌套校验，参数配了分组，只会校验有分组的字段
+参数如果没有配置分组，不会校验配置了分组的字段
+
+在服务器线程数较少，业务耗时的场景下，异步能明显提高系统吞吐量，线程数之外的请求不会像同步请求一样被拖慢。
+DeferredResult 更灵活，可以主动 setResult 到 DeferredResult 中并返回，实现两个完全不相干的线程间的通信
+Callable 是由 SpringMVC 管理异步线程（Spring MVC 将调用在不同的线程中执行定义的任务），而 DeferredResult 是自己创建线程处理结果
+
+
+在Hystrix中：
+
+1、如果是线程隔离，可以通过线程数+队列大小限制。参数如下：
+
+hystrix.threadpool.default.coreSize
+hystrix.threadpool.default.maxQueueSize
+hystrix.threadpool.default.queueSizeRejectionThreshold
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds
+
+
+2、如果是信号量隔离，可以设置最大并发请求数。参数如下：
+hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests
+
+

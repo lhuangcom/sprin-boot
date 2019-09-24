@@ -1,0 +1,46 @@
+﻿
+
+一、文件准备
+1、备份需要更新的文件 在本地新建一个目录作为备份文件。
+  再在该目录下新建一个以日期命名的文件夹作为本次更新的备份文件。注意目录层级关系的对应
+
+2、上传需要更新的文件到服务器上。注意目录层级关系的对应
+
+二、服务器重启
+
+1、查看tomcat 进程   ps aux|grep tomcat
+
+2、kill -9 进程号  
+
+3、确认tomcat进程被kill掉  到命令1  
+
+4、重启tomcat  到 tomcat 的 /bin 目录下 输入命令 ./startup.sh  
+	
+	或者  sh  相对路径/startup.sh
+       
+5、确认是否重启成功可查看tomcat/logs 目录下的 日志文件 catalina.out
+    
+	bin目录下 查看日志 命令   tail -f ../logs/catalina.out
+	
+	tail -1000f ../logs/catalina.out   加数字1000或者任意数字。 可以看到前面更多的日志。数值越大越往前
+	
+6、浏览器访问项目
+
+处理springboot项目
+查找相应进程  ps -ef|grep java
+删除  kill -9 进程号
+删除 jar包、nuhup.out(日志文件)  rm 命令
+复制上传的jar包  cp 
+重启  sh 对应的sh文件（./命令提示权限不够）
+修改yml的配置文件 使用vi命令   i 编辑模式；esc退出  :wq! 保存退出 :q! 不保存退出
+
+ajax直接在当前网络环境发送请求，内网服务器环境下可以连通；
+服务器的真实环境不能访问现网ip，所以编程里的配置皆需要改为服务器的真实ip；
+
+catalina.out监测服务器的启动信息
+log才监控程序运行的日志
+
+telnet ip port
+wget ip:port
+ifconfig -a
+curl ip:port(访问路径)
