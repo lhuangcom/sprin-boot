@@ -6,22 +6,24 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="TINYINT" property="sex"/>
+    <result column="ext_json" jdbcType="VARCHAR" property="ext_json"/>
 
   </resultMap>
 
   <sql id="base_result_set">
-    id,username,email
+    id,username,email,sex,ext_json
   </sql>
 
   <select id="getUser" resultMap="UserMap" parameterType="User">
-      select <include refid="base_result_set"/> from user where username=#{username} and password=#{password}
+      select <include refid="base_result_set"/> from user where username=#{username}
   </select>
 
-  <select id="getUserByUsername"  parameterType="User">
+  <select id="getUserByUsername"  parameterType="Integer">
     select count(*) from user where username=#{username}
   </select>
 
   <insert id="insertUser" parameterType="User">
-    insert into user values(#{id},#{username},#{password},#{email})
+    insert into user(id,username,password,email,sex,ext_json) values(#{id},#{username},#{password},#{email},#{sex},#{ext_json})
   </insert>
 </mapper>

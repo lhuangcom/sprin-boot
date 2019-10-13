@@ -8,7 +8,7 @@ public interface UserDao {
 
     User getUser(User user);
 
-    User getUserByUsername(User user);
+    Integer getUserByUsername(User user);
 
     Integer insertUser(User user);
 }

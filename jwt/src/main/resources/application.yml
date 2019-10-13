@@ -46,9 +46,11 @@ logging:
   path: F:/spring-boot/blog/log/
   level:
    web: INFO
-   com.lhuang.blog.user.provider.dao: INFO
+   com.lhuang.blog.user.provider.dao: debug
    org.springframework.web: INFO
    org.hibernate: ERROR
 
 server:
   port: 8082
+
+
