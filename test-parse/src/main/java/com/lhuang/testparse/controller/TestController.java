@@ -6,6 +6,8 @@ import com.lhuang.testparse.event.EventPublisher;
 import com.lhuang.testparse.service.impl.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,6 +49,11 @@ public class TestController{
         return "业务完成";
 
 
+    }
+
+    @PostMapping("/user")
+    public String testUser(@RequestBody User user){
+        return user.toString();
     }
 
 

@@ -1,5 +1,7 @@
 package com.lhuang.testparse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lhuang.testparse.api.pojo.User;
 import com.lhuang.testparse.controller.String_To_Date_Controller;
 import com.lhuang.testparse.controller.TestController;
 import org.junit.Before;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @author lhunag
@@ -31,11 +34,14 @@ public class TestControllerTest {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Autowired
+    private WebApplicationContext context;
+
     private MockMvc mockMvc;
 
     @Before
     public void setMockMvc(){
-        mockMvc = MockMvcBuilders.standaloneSetup(new String_To_Date_Controller()).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
     }
 
@@ -64,15 +70,27 @@ public class TestControllerTest {
 
         //ZonedDateTime zonedDateTime = ZonedDateTime.parse("2015-05-03T10:15:30+01:00[Aisa/Shanghai]");
 
+        User user = new User();
+        user.setName("1231");
 
 
+        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+                .content(new ObjectMapper().writeValueAsString(user))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/date")
+
+        /*mockMvc.perform(MockMvcRequestBuilders.get("/date")
                 .param("date","2018-12-05")
                 .accept(MediaType.ALL))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .andReturn();*/
     }
 
 }
