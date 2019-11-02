@@ -26,7 +26,7 @@ public class DynamicProxyTest {
         CglibProxy cglibProxy = new CglibProxy();
         Coffee coffee = cglibProxy.getProxy(CofferImpl.class);
         coffee.hashCode();
-        coffee.drink();
+        //coffee.drink();
 
     }
 
