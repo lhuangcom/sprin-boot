@@ -53,4 +53,11 @@ logging:
 server:
   port: 8082
 
+rocketmq:
+  name-server: 122.51.109.121:9876
+  producer:
+   group: produce_group
+   sendMessageTimeout: 300000
+
+
 
