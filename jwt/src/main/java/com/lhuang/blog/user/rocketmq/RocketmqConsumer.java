@@ -38,6 +38,13 @@ public class RocketmqConsumer implements RocketMQListener<String>, RocketMQPushC
 
         DefaultMQPullConsumer defaultMQPullConsumer = new DefaultMQPullConsumer();
         DefaultMQPushConsumer defaultMQPushConsumer = new DefaultMQPushConsumer();
+
+        // 每次拉取的间隔，单位为毫秒
+        consumer.setPullInterval(2000);
+        // 设置每次从队列中拉取的消息数为16
+        consumer.setPullBatchSize(16);
+        //实现RocketMQ批量消费，单次消费可以消费多条数据
+        consumer.setConsumeMessageBatchMaxSize(12);
     }
 
     @Override
