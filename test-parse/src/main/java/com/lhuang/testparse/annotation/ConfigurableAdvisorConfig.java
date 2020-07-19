@@ -14,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConfigurableAdvisorConfig {
 
-    @Value("${pointcut.property}")
-    private String pointcut;
+   /* @Value("${pointcut.property}")
+    private String pointcut;*/
 
     @Bean
     public AspectJExpressionPointcutAdvisor configurabledvisor() {
         AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
-        advisor.setExpression(pointcut);
+        advisor.setExpression("execution(* com.lhuang.testparse.service..*.*(..) ) && @annotation(com.lhuang.testparse.annotation.CustomCache)");
         advisor.setAdvice(new LogAdvice ());
         return advisor;
     }

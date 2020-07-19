@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lhuang.testparse.api.pojo.User;
 import com.lhuang.testparse.controller.String_To_Date_Controller;
 import com.lhuang.testparse.controller.TestController;
+import com.lhuang.testparse.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,10 +40,22 @@ public class TestControllerTest {
 
     private MockMvc mockMvc;
 
+    @Autowired
+    private UserService userService;
+
     @Before
     public void setMockMvc(){
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
+    }
+
+    @Test
+    public void testInterceptor(){
+        User user = new User();
+        user.setName("456");
+        userService.testRedis(user);
+
+        userService.get();
     }
 
     @Test

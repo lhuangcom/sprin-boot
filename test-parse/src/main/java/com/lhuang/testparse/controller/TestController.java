@@ -3,15 +3,13 @@ package com.lhuang.testparse.controller;
 
 import com.lhuang.testparse.api.pojo.User;
 import com.lhuang.testparse.event.EventPublisher;
-import com.lhuang.testparse.service.impl.UserService;
+import com.lhuang.testparse.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
@@ -27,7 +25,7 @@ public class TestController{
     @RequestMapping("/testRedis")
     public String testRedis(){
 
-        User user = userService.testRedis();
+        User user = userService.testRedis(new User());
         System.out.println(user.getName());
         return "123";
     }

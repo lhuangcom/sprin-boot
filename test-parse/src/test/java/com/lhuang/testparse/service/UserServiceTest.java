@@ -1,4 +1,4 @@
-package com.lhuang.testparse.service.impl;
+package com.lhuang.testparse.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

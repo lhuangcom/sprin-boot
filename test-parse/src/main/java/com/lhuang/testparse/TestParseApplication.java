@@ -1,15 +1,7 @@
 package com.lhuang.testparse;
 
-import com.lhuang.testparse.service.impl.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.data.redis.core.RedisTemplate;
-
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class TestParseApplication /*implements CommandLineRunner*/ {
